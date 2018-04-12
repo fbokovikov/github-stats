@@ -1,0 +1,4 @@
+rootProject.name = 'github-stats'
+
+include 'pr-stats'
+
