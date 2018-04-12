@@ -9,7 +9,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  * @author fbokovikov
  */
 @Configuration
-@PropertySource("application.properties")
+@PropertySource(value = {"application.properties", "file:/etc/secret.properties"})
 public class PlaceholderConfig {
 
     @Bean
