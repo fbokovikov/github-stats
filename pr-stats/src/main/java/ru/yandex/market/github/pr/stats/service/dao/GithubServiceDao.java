@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.yandex.market.github.pr.stats.service.model.GithubBranch;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public class GithubServiceDao {
                 (ps, branch) -> {
                     ps.setString(1, branch.getBranchName());
                     ps.setString(2, branch.getBranchOwner());
-                    ps.setTimestamp(3, null);
+                    ps.setTimestamp(3, Timestamp.from(branch.getUpdatedAt()));
                     ps.setString(4, branch.getRepository());
                     ps.setString(5, branch.getSha());
                 }

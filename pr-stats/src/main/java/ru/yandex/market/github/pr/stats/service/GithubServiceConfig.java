@@ -62,7 +62,12 @@ public class GithubServiceConfig {
 
     @Bean
     public GithubService githubService() {
-        return new GithubService(pullRequestService(), repositoryService(), githubServiceDao());
+        return new GithubService(
+                pullRequestService(),
+                repositoryService(),
+                githubServiceDao(),
+                commitService()
+        );
     }
 
 }
