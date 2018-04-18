@@ -16,4 +16,5 @@ public class GithubBranch {
     private final String branchOwner;
     private final Instant updatedAt;
     private final String repository;
+    private final String sha;
 }

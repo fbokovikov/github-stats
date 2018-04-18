@@ -1,6 +1,7 @@
 package ru.yandex.market.github.pr.stats.service;
 
 import org.eclipse.egit.github.core.client.GitHubClient;
+import org.eclipse.egit.github.core.service.CommitService;
 import org.eclipse.egit.github.core.service.PullRequestService;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,11 @@ public class GithubServiceConfig {
         GitHubClient gitHubClient = new GitHubClient(guthubHost);
         gitHubClient.setCredentials(githubUser, githubPassword);
         return gitHubClient;
+    }
+
+    @Bean
+    public CommitService commitService() {
+        return new CommitService(gitHubClient());
     }
 
     @Bean

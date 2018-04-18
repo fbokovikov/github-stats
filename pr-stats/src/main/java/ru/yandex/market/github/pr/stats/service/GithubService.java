@@ -47,6 +47,7 @@ public class GithubService {
                 .map(b -> GithubBranch.builder()
                         .repository(repositoryName)
                         .branchName(b.getName())
+                        .sha(b.getCommit().getSha())
                         .build()
                 ).collect(Collectors.toList());
         System.out.println(branches.size());

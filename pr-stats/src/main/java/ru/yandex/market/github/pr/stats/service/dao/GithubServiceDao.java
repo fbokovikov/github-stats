@@ -14,11 +14,12 @@ public class GithubServiceDao {
 
     private static final String INSERT_BRANCH_SQL ="" +
             "INSERT INTO GITHUB_STATS.GITHUB_BRANCH (" +
-            "    BRANCH_NAME," +
-            "    BRANCH_OWNER," +
-            "    UPDATE_DATETIME," +
-            "    REPOSITORY_NAME" +
-            ") VALUES (?, ?, ?, ?)";
+            "    BRANCH_NAME, " +
+            "    BRANCH_OWNER, " +
+            "    UPDATED_AT, " +
+            "    REPOSITORY_NAME, " +
+            "    SHA" +
+            ") VALUES (?, ?, ?, ?, ?)";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -32,6 +33,7 @@ public class GithubServiceDao {
                     ps.setString(2, branch.getBranchOwner());
                     ps.setTimestamp(3, null);
                     ps.setString(4, branch.getRepository());
+                    ps.setString(5, branch.getSha());
                 }
         );
     }

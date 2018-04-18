@@ -9,7 +9,8 @@ GRANT CREATE TABLE TO github_stats;
 CREATE TABLE github_stats.github_branch (
     branch_name VARCHAR2(100 CHAR),
     branch_owner VARCHAR2(40 CHAR),
-    update_datetime TIMESTAMP,
+    sha VARCHAR2(100 char),
+    updated_at TIMESTAMP,
     repository_name VARCHAR2(100 CHAR)
 );
 
