@@ -11,7 +11,6 @@ import ru.yandex.market.github.pr.stats.service.GithubServiceConfig;
  */
 @Configuration
 @Import({JettyServerConfig.class,
-        PlaceholderConfig.class,
         GithubServiceConfig.class})
 public class PrApplicationConfig {
 }
