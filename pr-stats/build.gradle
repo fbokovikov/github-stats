@@ -18,6 +18,8 @@ ext {
 
 dependencies {
     compile "org.springframework:spring-webmvc:${springVersion}"
+    compile "org.springframework:spring-jdbc:${springVersion}"
+    compile "org.apache.commons:commons-dbcp2:2.2.0"
     compile "org.eclipse.jetty:jetty-server:${jettyVersion}"
     compile "org.eclipse.jetty:jetty-servlet:${jettyVersion}"
     compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
@@ -25,8 +27,8 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
     compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
     compile group: 'com.google.guava', name: 'guava', version: '24.1-jre'
+    compile files('libs/ojdbc7.jar')
 
-    testCompile "org.junit.vintage:junit-vintage-engine:4.12.3"
     testCompile "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
     testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
     testCompile "org.hamcrest:hamcrest-all:1.3"
