@@ -12,3 +12,16 @@ github.password=
 Доступные ручки:
 
 ```GET /github/pr/stats```
+
+
+Чтобы поднять локально oracle:
+```
+docker-compose up -d
+```
+
+Чтобы остановить контейнер:
+
+```
+docker ps
+docker stop <conteiner_id>
+```

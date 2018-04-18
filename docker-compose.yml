@@ -1,0 +1,7 @@
+version: '3'
+services:
+  oracle:
+    image: wnameless/oracle-xe-11g
+    ports:
+      - "49161:1521"
+      - "49160:22"
