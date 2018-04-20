@@ -19,11 +19,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class UserStat {
+public class StatDTO {
 
     @XmlElement(name = "login")
     private final String login;
 
-    @XmlElement(name = "prNumber")
-    private final int prNumber;
+    @XmlElement(name = "count")
+    private final int count;
 }

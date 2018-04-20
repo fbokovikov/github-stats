@@ -1,10 +1,14 @@
 package ru.yandex.market.github.pr.stats.service.dao;
 
+import jdk.nashorn.internal.runtime.regexp.joni.constants.OPCode;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import ru.yandex.market.github.pr.stats.service.model.GithubBranch;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,9 +26,24 @@ public class GithubServiceDao {
             "    SHA" +
             ") VALUES (?, ?, ?, ?, ?)";
 
+    private static final String TRUNCATE_STAT_SQL = "" +
+            "TRUNCATE TABLE GITHUB_STATS.GITHUB_BRANCH";
+
+    private static final String GET_ALL_BRANCHES_SQL = "" +
+            "SELECT " +
+            "    BRANCH_NAME, " +
+            "    BRANCH_OWNER, " +
+            "    UPDATED_AT, " +
+            "    REPOSITORY_NAME, " +
+            "    SHA " +
+            "FROM GITHUB_STATS.GITHUB_BRANCH";
+
+    private static final RowMapper<GithubBranch> GITHUB_BRANCH_MAPPER = new GithubBranchRowMapper();
+
     private final JdbcTemplate jdbcTemplate;
 
     public void saveBranches(List<GithubBranch> githubBranches) {
+        jdbcTemplate.update(TRUNCATE_STAT_SQL);
         jdbcTemplate.batchUpdate(
                 INSERT_BRANCH_SQL,
                 githubBranches,
@@ -36,6 +55,13 @@ public class GithubServiceDao {
                     ps.setString(4, branch.getRepository());
                     ps.setString(5, branch.getSha());
                 }
+        );
+    }
+
+    public Collection<GithubBranch> getAllBranches () {
+        return jdbcTemplate.query(
+                GET_ALL_BRANCHES_SQL,
+                GITHUB_BRANCH_MAPPER
         );
     }
 

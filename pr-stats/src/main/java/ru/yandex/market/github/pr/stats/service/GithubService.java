@@ -40,6 +40,10 @@ public class GithubService {
         return pullRequestService.getPullRequests(repository, state);
     }
 
+    public Collection<GithubBranch> getAllBranches() {
+        return githubServiceDao.getAllBranches();
+    }
+
     @SneakyThrows
     public void importGithubBranches(String repositoryOwner,
                                      String repositoryName) {

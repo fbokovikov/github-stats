@@ -11,7 +11,11 @@ github.password=
 
 Доступные ручки:
 
-```GET /github/pr/stats```
+```
+GET /pullRequests
+GET /branches
+GET /branches/{login}
+```
 
 
 Чтобы поднять локально oracle:
