@@ -50,8 +50,9 @@ public class GithubService {
         return githubServiceDao.getUserBranches(login);
     }
 
-    public void deleteBranch(IRepositoryIdProvider repo, String branchName) {
-        branchService.deleteBranch(repo, branchName);
+    public void deleteBranch(IRepositoryIdProvider repo, GithubBranch githubBranch) {
+        branchService.deleteBranch(repo, githubBranch.getBranchName());
+        githubServiceDao.deleteBranch(githubBranch);
     }
 
     @SneakyThrows
@@ -77,7 +78,7 @@ public class GithubService {
                 .map(User::getLogin)
                 .orElse(commitUser.getName());
         Instant updatedAt = commitUser.getDate().toInstant();
-        Thread.sleep(500);
+        Thread.sleep(200);
         return GithubBranch.builder()
                 .sha(sha)
                 .updatedAt(updatedAt)

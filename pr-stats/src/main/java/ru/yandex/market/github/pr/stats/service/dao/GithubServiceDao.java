@@ -1,6 +1,5 @@
 package ru.yandex.market.github.pr.stats.service.dao;
 
-import jdk.nashorn.internal.runtime.regexp.joni.constants.OPCode;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -8,7 +7,6 @@ import ru.yandex.market.github.pr.stats.service.model.GithubBranch;
 
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,6 +38,10 @@ public class GithubServiceDao {
 
     private static final String GET_USER_BRANCHES_SQL =
             GET_ALL_BRANCHES_SQL + " WHERE BRANCH_OWNER = ?";
+
+    private static final String DELETE_BRANCH_SQL = "" +
+            "DELETE FROM GITHUB_STATS.GITHUB_BRANCH " +
+            "WHERE BRANCH_NAME = ? AND REPOSITORY_NAME = ?";
 
     private static final RowMapper<GithubBranch> GITHUB_BRANCH_MAPPER = new GithubBranchRowMapper();
 
@@ -73,6 +75,14 @@ public class GithubServiceDao {
                 GET_USER_BRANCHES_SQL,
                 GITHUB_BRANCH_MAPPER,
                 login
+        );
+    }
+
+    public void deleteBranch(GithubBranch githubBranch) {
+        jdbcTemplate.update(
+                DELETE_BRANCH_SQL,
+                githubBranch.getBranchName(),
+                githubBranch.getRepository()
         );
     }
 

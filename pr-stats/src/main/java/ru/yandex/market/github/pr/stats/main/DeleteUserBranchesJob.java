@@ -14,17 +14,14 @@ import java.util.Collection;
 public class DeleteUserBranchesJob {
 
     private static final IRepositoryIdProvider REPO = () -> "market-java/mbi";
+    private static final String LOGIN = "codemonkey";
 
     public static void main(String ... args) {
-        if (args.length != 1) {
-            System.err.println("Expected one parameter");
-            return;
-        }
-        String login = args[0];
         AnnotationConfigApplicationContext applicationContext =
                 new AnnotationConfigApplicationContext(GithubServiceConfig.class);
         GithubService githubService = applicationContext.getBean("githubService", GithubService.class);
-        Collection<GithubBranch> userBranches = githubService.getUserBranches(login);
-        userBranches.forEach(b -> githubService.deleteBranch(REPO, b.getBranchName()));
+        Collection<GithubBranch> userBranches = githubService.getUserBranches(LOGIN);
+        System.out.println(userBranches);
+        userBranches.forEach(b -> githubService.deleteBranch(REPO, b));
     }
 }
