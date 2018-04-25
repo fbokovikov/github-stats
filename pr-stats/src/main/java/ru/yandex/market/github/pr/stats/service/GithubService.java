@@ -3,6 +3,7 @@ package ru.yandex.market.github.pr.stats.service;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.eclipse.egit.github.core.CommitUser;
+import org.eclipse.egit.github.core.IRepositoryIdProvider;
 import org.eclipse.egit.github.core.PullRequest;
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.RepositoryBranch;
@@ -31,6 +32,7 @@ public class GithubService {
     private final RepositoryService repositoryService;
     private final GithubServiceDao githubServiceDao;
     private final CommitService commitService;
+    private final BranchService branchService;
 
     @SneakyThrows
     public Collection<PullRequest> getPullRequests(String repositoryOwner,
@@ -42,6 +44,14 @@ public class GithubService {
 
     public Collection<GithubBranch> getAllBranches() {
         return githubServiceDao.getAllBranches();
+    }
+
+    public Collection<GithubBranch> getUserBranches(String login) {
+        return githubServiceDao.getUserBranches(login);
+    }
+
+    public void deleteBranch(IRepositoryIdProvider repo, String branchName) {
+        branchService.deleteBranch(repo, branchName);
     }
 
     @SneakyThrows

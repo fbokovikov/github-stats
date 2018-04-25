@@ -61,12 +61,18 @@ public class GithubServiceConfig {
     }
 
     @Bean
+    public BranchService branchService() {
+        return new BranchService(gitHubClient());
+    }
+
+    @Bean
     public GithubService githubService() {
         return new GithubService(
                 pullRequestService(),
                 repositoryService(),
                 githubServiceDao(),
-                commitService()
+                commitService(),
+                branchService()
         );
     }
 

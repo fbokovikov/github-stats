@@ -38,6 +38,9 @@ public class GithubServiceDao {
             "    SHA " +
             "FROM GITHUB_STATS.GITHUB_BRANCH";
 
+    private static final String GET_USER_BRANCHES_SQL =
+            GET_ALL_BRANCHES_SQL + " WHERE BRANCH_OWNER = ?";
+
     private static final RowMapper<GithubBranch> GITHUB_BRANCH_MAPPER = new GithubBranchRowMapper();
 
     private final JdbcTemplate jdbcTemplate;
@@ -62,6 +65,14 @@ public class GithubServiceDao {
         return jdbcTemplate.query(
                 GET_ALL_BRANCHES_SQL,
                 GITHUB_BRANCH_MAPPER
+        );
+    }
+
+    public Collection<GithubBranch> getUserBranches(String login) {
+        return jdbcTemplate.query(
+                GET_USER_BRANCHES_SQL,
+                GITHUB_BRANCH_MAPPER,
+                login
         );
     }
 
