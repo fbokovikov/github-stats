@@ -9,6 +9,7 @@ import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.RepositoryBranch;
 import org.eclipse.egit.github.core.RepositoryCommit;
 import org.eclipse.egit.github.core.User;
+import org.eclipse.egit.github.core.client.PageIterator;
 import org.eclipse.egit.github.core.service.CommitService;
 import org.eclipse.egit.github.core.service.PullRequestService;
 import org.eclipse.egit.github.core.service.RepositoryService;
@@ -17,6 +18,7 @@ import ru.yandex.market.github.pr.stats.service.model.GithubBranch;
 
 import javax.annotation.Nullable;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -35,10 +37,8 @@ public class GithubService {
     private final BranchService branchService;
 
     @SneakyThrows
-    public Collection<PullRequest> getPullRequests(String repositoryOwner,
-                                                   String repositoryName,
+    public Collection<PullRequest> getPullRequests(IRepositoryIdProvider repository,
                                                    String state) {
-        Repository repository = repositoryService.getRepository(repositoryOwner, repositoryName);
         return pullRequestService.getPullRequests(repository, state);
     }
 
@@ -87,5 +87,15 @@ public class GithubService {
                 .repository(repositoryName)
                 .build();
     }
+
+    public Collection<RepositoryCommit> getCommits(IRepositoryIdProvider repository, int n) {
+        List<RepositoryCommit> commits = new ArrayList<>();
+        PageIterator<RepositoryCommit> commitsIterator = commitService.pageCommits(repository, 100);
+        while (commitsIterator.hasNext() && commits.size() < n) {
+            commits.addAll(commitsIterator.next());
+        }
+        return commits;
+    }
+
 
 }

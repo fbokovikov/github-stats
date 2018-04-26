@@ -25,7 +25,7 @@ public class CommitServiceTest extends FunctionalTest {
     private CommitService commitService;
 
     @Test
-    public void getMasterCommits() throws IOException {
+    public void getMasterCommits() {
         List<RepositoryCommit> commits = new ArrayList<>();
         PageIterator<RepositoryCommit> commitsIterator = commitService.pageCommits(MBI_REPO, 100);
         while (commitsIterator.hasNext() && commits.size() < 500) {
