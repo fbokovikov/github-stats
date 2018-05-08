@@ -10,6 +10,7 @@ import org.eclipse.egit.github.core.RepositoryBranch;
 import org.eclipse.egit.github.core.RepositoryCommit;
 import org.eclipse.egit.github.core.User;
 import org.eclipse.egit.github.core.client.PageIterator;
+import org.eclipse.egit.github.core.client.RequestException;
 import org.eclipse.egit.github.core.service.CommitService;
 import org.eclipse.egit.github.core.service.PullRequestService;
 import org.eclipse.egit.github.core.service.RepositoryService;
@@ -21,6 +22,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -62,30 +64,35 @@ public class GithubService {
         Collection<RepositoryBranch> repositoryBranches = repositoryService.getBranches(repository);
         List<GithubBranch> branches = repositoryBranches.stream()
                 .map(b -> mapToGithubBranch(b, repository))
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
         githubServiceDao.saveBranches(branches);
     }
 
     @SneakyThrows
     private GithubBranch mapToGithubBranch(RepositoryBranch repositoryBranch, Repository repository) {
-        String sha = repositoryBranch.getCommit().getSha();
-        String repositoryName = repository.getName();
-        String branchName = repositoryBranch.getName();
-        RepositoryCommit commit = commitService.getCommit(repository, sha);
-        @Nullable User user = commit.getAuthor();
-        CommitUser commitUser = commit.getCommit().getAuthor();
-        String login = Optional.ofNullable(user)
-                .map(User::getLogin)
-                .orElse(commitUser.getName());
-        Instant updatedAt = commitUser.getDate().toInstant();
-        Thread.sleep(200);
-        return GithubBranch.builder()
-                .sha(sha)
-                .updatedAt(updatedAt)
-                .branchName(branchName)
-                .branchOwner(login)
-                .repository(repositoryName)
-                .build();
+        try {
+            String sha = repositoryBranch.getCommit().getSha();
+            String repositoryName = repository.getName();
+            String branchName = repositoryBranch.getName();
+            RepositoryCommit commit = commitService.getCommit(repository, sha);
+            @Nullable User user = commit.getAuthor();
+            CommitUser commitUser = commit.getCommit().getAuthor();
+            String login = Optional.ofNullable(user)
+                    .map(User::getLogin)
+                    .orElse(commitUser.getName());
+            Instant updatedAt = commitUser.getDate().toInstant();
+            Thread.sleep(200);
+            return GithubBranch.builder()
+                    .sha(sha)
+                    .updatedAt(updatedAt)
+                    .branchName(branchName)
+                    .branchOwner(login)
+                    .repository(repositoryName)
+                    .build();
+        } catch (RequestException e) {
+            return null;
+        }
     }
 
     public Collection<RepositoryCommit> getCommits(IRepositoryIdProvider repository, int n) {

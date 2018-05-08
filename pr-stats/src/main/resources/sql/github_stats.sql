@@ -1,3 +1,4 @@
+--login with system/oracle
 CREATE USER github_stats IDENTIFIED BY github_stats;
 
 ALTER USER github_stats quota 100M on system;
