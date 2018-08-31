@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.market.github.pr.stats.config.FunctionalTest;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

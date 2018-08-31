@@ -20,8 +20,7 @@ public class GithubServiceTest extends FunctionalTest {
     @Test
     public void pullRequests() {
         Collection<PullRequest> pullRequests = githubService.getPullRequests(
-                "market-java",
-                "mbi",
+                () -> "market-java/mbi",
                 "open"
         );
         MatcherAssert.assertThat(pullRequests, Matchers.not(Matchers.empty()));
