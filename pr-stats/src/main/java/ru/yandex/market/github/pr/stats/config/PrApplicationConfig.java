@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import ru.yandex.market.github.pr.stats.config.placeholder.PlaceholderConfig;
 import ru.yandex.market.github.pr.stats.config.server.JettyServerConfig;
+import ru.yandex.market.github.pr.stats.config.swagger.SwaggerConfig;
 import ru.yandex.market.github.pr.stats.service.GithubServiceConfig;
 
 /**

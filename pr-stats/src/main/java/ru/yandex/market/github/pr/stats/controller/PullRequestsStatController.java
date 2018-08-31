@@ -1,5 +1,6 @@
 package ru.yandex.market.github.pr.stats.controller;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.eclipse.egit.github.core.IRepositoryIdProvider;
 import org.eclipse.egit.github.core.PullRequest;
@@ -33,6 +34,7 @@ public class PullRequestsStatController {
 
     private final GithubService githubService;
 
+    @ApiOperation("Получение статистики по открытым пулл-реквестам в репозиторий в резрезе пользователя Github")
     @GetMapping(value = "/pullRequests")
     public List<StatDTO> getPrsToRepository(
             @ModelAttribute("repository") IRepositoryIdProvider repository,
@@ -43,6 +45,7 @@ public class PullRequestsStatController {
         return aggregateStat(pullRequestsOwners);
     }
 
+    @ApiOperation("Получение статистика по бранчам в репозитории в разрезе пользователя")
     @GetMapping("branches")
     public List<StatDTO> getBranchesStat(
             @ModelAttribute("repository") IRepositoryIdProvider repository
@@ -52,6 +55,7 @@ public class PullRequestsStatController {
         return aggregateStat(branchOwners);
     }
 
+    @ApiOperation("Получение всех бранчей указанного пользователя Github")
     @GetMapping("branches/{login}")
     public List<BranchDTO> getUserBranches(
             @ModelAttribute("repository") IRepositoryIdProvider repository,
@@ -64,6 +68,7 @@ public class PullRequestsStatController {
                 .collect(Collectors.toList());
     }
 
+    @ApiOperation("Получение статистикаи по коммитам в указанный репозиторий")
     @GetMapping("pulse")
     public List<StatDTO> pulse(
             @ModelAttribute("repository") IRepositoryIdProvider repository,
