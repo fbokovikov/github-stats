@@ -4,11 +4,15 @@ import lombok.SneakyThrows;
 import org.eclipse.egit.github.core.IRepositoryIdProvider;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.GitHubService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author fbokovikov
  */
 public class BranchService extends GitHubService {
+
+    private static final Logger log = LoggerFactory.getLogger(BranchService.class);
 
     /**
      * Create branch service
@@ -25,11 +29,13 @@ public class BranchService extends GitHubService {
     }
 
     private static String createUrlString(IRepositoryIdProvider repository, String branchName) {
-        StringBuilder builder = new StringBuilder()
+        String deleteBranchUrl = new StringBuilder()
                 .append("/repos/")
                 .append(repository.generateId())
                 .append("/git/refs/heads/")
-                .append(branchName);
-        return builder.toString();
+                .append(branchName)
+                .toString();
+        log.info("Branch url is: {}", deleteBranchUrl);
+        return deleteBranchUrl;
     }
 }
