@@ -14,6 +14,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.Collections;
 
 /**
+ * Swagger-ui is enabled on /swagger-ui.html.
+ *
  * @author fbokovikov
  */
 @EnableSwagger2
@@ -31,7 +33,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo());
     }
 
-    private ApiInfo apiInfo() {
+    private static ApiInfo apiInfo() {
         return new ApiInfo(
                 "Github repository statistics",
                 "Spring MVC REST API",

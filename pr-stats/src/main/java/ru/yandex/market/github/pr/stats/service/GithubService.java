@@ -14,6 +14,8 @@ import org.eclipse.egit.github.core.client.RequestException;
 import org.eclipse.egit.github.core.service.CommitService;
 import org.eclipse.egit.github.core.service.PullRequestService;
 import org.eclipse.egit.github.core.service.RepositoryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.yandex.market.github.pr.stats.service.dao.GithubServiceDao;
 import ru.yandex.market.github.pr.stats.service.model.GithubBranch;
 
@@ -31,6 +33,8 @@ import java.util.stream.Collectors;
  */
 @AllArgsConstructor
 public class GithubService {
+
+    private static final Logger log = LoggerFactory.getLogger(GithubService.class);
 
     private final PullRequestService pullRequestService;
     private final RepositoryService repositoryService;
@@ -62,6 +66,7 @@ public class GithubService {
                                      String repositoryName) {
         Repository repository = repositoryService.getRepository(repositoryOwner, repositoryName);
         Collection<RepositoryBranch> repositoryBranches = repositoryService.getBranches(repository);
+        log.info("Found {} branches in repository {}", repositoryBranches.size(), repository.generateId());
         List<GithubBranch> branches = repositoryBranches.stream()
                 .map(b -> mapToGithubBranch(b, repository))
                 .filter(Objects::nonNull)
